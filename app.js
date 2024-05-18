@@ -3,6 +3,9 @@ import { words } from './utils.js';
 const gameElement = document.querySelector('.game');
 
 const stats = document.querySelector('.stats');
+const resultStats = document.querySelector('.result');
+const resultScore = document.querySelector('.result-score');
+const resultTime = document.querySelector('.result-time');
 
 const secondsEl = document.querySelector('.seconds');
 const tensEl = document.querySelector('.tens');
@@ -10,10 +13,12 @@ const scoreEl = document.querySelector('.score span');
 const healthEl = document.querySelector('.health span');
 
 const startButton = document.querySelector('.start');
+const stopButton = document.querySelector('.stop');
 
 const inputElement = document.querySelector('#input');
 
 let timerInterval;
+let spawnInterval;
 let gameInterval;
 
 const spawnSpeed = 1250; // ms
@@ -32,12 +37,14 @@ const game = {
 
 function reset() {
   stats.style = 'display: none;';
+  stopButton.style = 'display: none;';
   startButton.style = 'display: block;';
 
   currWords.forEach((el) => el.remove());
   currWords = [];
 
   clearInterval(timerInterval);
+  clearInterval(spawnInterval);
   clearInterval(gameInterval);
   game.score = 0;
   game.time = {
@@ -60,20 +67,32 @@ startButton.addEventListener('click', () => {
   startButton.style = 'display: none;';
 });
 
+stopButton.addEventListener('click', () => {
+  reset();
+});
+
 function startGame() {
   game.run = true;
   stats.style = 'display: flex;';
+  resultStats.style = 'display: none;';
   inputElement.style = 'display: block;';
+  stopButton.style = 'display: block;';
+
   clearInterval(timerInterval);
+  clearInterval(spawnInterval);
   clearInterval(gameInterval);
 
   inputElement.focus();
 
   timerInterval = setInterval(startTimer, 10);
-  gameInterval = setInterval(gameLoop, spawnSpeed);
+  spawnInterval = setInterval(createTextElement, spawnSpeed);
+  gameInterval = setInterval(gameLoop, 1);
 }
 
 function gameOver() {
+  resultScore.innerText = game.score;
+  resultTime.innerText = `${game.time.seconds}:${game.time.tens}`;
+  resultStats.style = 'display: block;';
   reset();
 }
 
@@ -84,7 +103,6 @@ function gameLoop() {
     gameOver();
     return;
   }
-  createTextElement();
 }
 
 function startTimer() {
@@ -152,6 +170,6 @@ function animateTextElement(element) {
       currWords.splice(currWords.indexOf(element), 1);
     }
   }
-  console.log(game);
+
   requestAnimationFrame(step);
 }

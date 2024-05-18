@@ -7,20 +7,38 @@
     <title>Typing game</title>
   </head>
   <body>
-    <div class="container">
-      <div class="game">
-        <div class="stats">
-          <p class="score">Score: <span>0</span></p>
-          <p class="health">Health: <span>0</span></p>
+    <div class="wrapper">
+      <div class="container">
+        <div class="game">
+          <div class="stats">
+            <p class="score">Score: <span>0</span></p>
+            <p class="health">Health: <span>0</span></p>
+          </div>
+          <div class="game-center-wrapper">
+            <div class="game-center">
+              <div class="result">
+                <p class="result-title">Game over!</p>
+                <p class="result-stats">
+                  Your score was <span class="result-score">0</span> and you
+                  survived
+                  <span class="result-time"></span>
+                  seconds
+                </p>
+              </div>
+              <button class="start">Start</button>
+            </div>
+          </div>
         </div>
-        <button class="start">Start</button>
       </div>
-    </div>
-    <div class="bottom-container">
-      <p class="timer">
-        <span class="seconds">00</span>:<span class="tens">00</span>
-      </p>
-      <input type="text" id="input" />
+      <div class="bottom-wrapper">
+        <div class="bottom-container">
+          <p class="timer">
+            <span class="seconds">00</span>:<span class="tens">00</span>
+          </p>
+          <input type="text" id="input" />
+          <button class="stop">Stop</button>
+        </div>
+      </div>
     </div>
     <script type="module" src="app.js"></script>
   </body>
